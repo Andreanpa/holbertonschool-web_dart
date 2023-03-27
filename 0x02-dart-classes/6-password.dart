@@ -1,30 +1,27 @@
-// Copied from 4-mutables.dart
-
 class Password {
-  String _password = "";
+  String? _password;
 
-  // Different constructor syntax to instantiate private variables
-  Password({required String password}) : _password = password;
-
-  // Getter method to access private variables
-  String get password => _password;
-
-  // Setter method to set private variables
-  set password(String pw) {
-    _password = pw;
+  String? get password => this._password;
+  void set password (String? password) {
+    this._password = password;
   }
 
-  bool isValid(userJson) {
-    // Password length between 8 and 16 characters long
-    return (this.password.length >= 8 && this.password.length <= 16) &&
-      // Password contains upper and lower case letters
-      this.password.contains(RegExp(r'[a-z]')) &&
-      this.password.contains(RegExp(r'[A-Z]')) &&
-      // Password contains at numbers
-      this.password.contains(RegExp(r'[0-9]'));
+  Password({ required String password }) {
+    this._password = password;
   }
 
-  // toString() method already exists in Object class
+  bool isValid () {
+    if (this.password == null)
+      return false;
+    String regexPattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}';
+    RegExp regex = new RegExp(regexPattern);
+    if (!regex.hasMatch(this.password!))
+      return false;
+    return true;
+  }
+
   @override
-  String toString() => "Your Password is: ${this.password}";
+  String toString() {
+    return "Your Password is: ${this.password}";
+  }
 }

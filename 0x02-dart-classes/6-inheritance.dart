@@ -3,46 +3,45 @@
 
 import '6-password.dart';
 
-class User extends Password{
-  int id;
-  String name;
-  int age;
-  double height;
-  String user_password;
+class User extends Password {
+  int? id;
+  String? name;
+  int? age;
+  double? height;
+  String? user_password;
 
-  // Constructor with parameters - must use required so not nullable
-  User({
-    required this.id,
-    required this.name,
-    required this.age,
-    required this.height,
-    required this.user_password,
-    // Calling Password constructor with Password password set to user_password
-  }) : super(password: user_password);
+  User({required int id, required String name,
+        required int age, required double height,
+        required String user_password}) : super(password: user_password) {
+    this.id = id;
+    this.name = name;
+    this.age = age;
+    this.height = height;
+    this.user_password = user_password;
+  }
 
-  // Returns map representation of user
-  Map<String, dynamic> toJson() {
+  Map<String, Object?> toJson () {
     return {
-      "id": this.id,
-      "name": name,
-      "age": age,
-      "height": height,
+      'id': this.id,
+      'name': this.name,
+      'age': this.age,
+      'height': this.height
     };
   }
 
-  // Returns string representation of user
-  // userJson is map/json representation of user - convert to string
   static User fromJson(Map<dynamic, dynamic> userJson) {
     return User(
-      id: userJson["id"],
-      name: userJson["name"],
-      age: userJson["age"],
-      height: userJson["height"],
-      user_password: userJson["user_password"],
+      id: userJson['id'],
+      name: userJson['name'],
+      age: userJson['age'],
+      height: userJson['height'],
+      user_password: ''
     );
   }
 
-  // Override default toString() method
   @override
-  String toString() => "User(id : $id ,name: $name,  age: $age, height: $height, Password: ${isValid(user_password)}";
+  String toString () {
+    Password password = new Password(password: this.user_password!);
+    return "User(id : ${this.id} ,name: ${this.name}, age: ${this.age}, height: ${this.height}, Password: ${password.isValid()})";
+  }
 }
